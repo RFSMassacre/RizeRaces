@@ -1,0 +1,104 @@
+##########################################
+###              RizeRaces             ###
+##########################################
+
+### Prefix ###
+prefix: "&c&lRize&d&lRaces &7&l> &r"
+
+### Errors ###
+error:
+  player:
+    online: "&f{player}&c "
+  player-offline: "&f{player}&c could not be loaded."
+  database: "&cThe database failed to load."
+  no-perm: "&cYou don't have permission for this."
+  invalid-args: "&4Invalid arguments! &cPlease check your command."
+  console: "&cOnly players can use this command."
+
+### Skins ###
+skin:
+  cannot-apply: "&f{player}&c's skin could not be applied."
+  cannot-clear: "&f{player}&c's skin could not be cleared."
+  cannot-load: "&e{skin}&c could not be loaded!"
+  loading: "&7Downloading skins... &4Do not use them until this is complete!"
+  loaded: "&7Skins are downloaded. You may now apply them."
+
+### Admin ###
+change-race:
+  invalid-args: "&c/rr changerace <race> [player]"
+  invalid-race: "&cRace doesn't exist. Please choose a valid one."
+  cancelled-event: "&cYou cannot change the race of this player right now."
+  success:
+    self: "&7You have converted &f{player}&7 into a {race}."
+    target: "&7You've become a {race}."
+
+reload: "&7Reloaded configuration files."
+
+### Abilities ###
+ability:
+  toggle:
+    enabled: "&eYour abilities are enabled."
+    disabled: "&7Your abilities are disabled."
+
+bind:
+  invalid-args: "&c/ab bind <ability>"
+  invalid-ability: "&cInvalid ability name. Please verify your argument."
+  not-level: "&cYour level is not high enough for this ability."
+  success: "&7You have bound &e{ability}&7 to Slot {slot}."
+
+unbind:
+  no-ability: "&cThis slot has no ability bound to it."
+  success: "&e{ability}&7 is no longer bound to Slot {slot}."
+
+### Vampire ###
+vampire:
+  ability:
+    cant-cast: "&7You need to have at least &c{reagent} Food Points&7."
+    on-cooldown: "&7This ability can't be cast for another &e{cooldown}&7."
+    no-target: "&cYou need a target to use this ability."
+  truce:
+    broken: "&cYour truce with mobs is broken. They will target you now!"
+    restored: "&eYour truce with mobs has been restored."
+
+### Werewolf ###
+werewolf:
+  ability:
+    cant-cast: "&7You need to be in &6Wolf Form&7."
+    on-cooldown: "&7This ability can't be cast for another &e{cooldown}&7."
+    no-target: "&cYou need a target to use this ability."
+  full-moon: "&eThe full moon embraces your inner beast!"
+  sun: "&7The full moon sets along with your energy..."
+
+### Merfolk ###
+merfolk:
+  ability:
+    cant-cast: "&7You need at least &b{reagent} Hydration&7."
+    on-cooldown: "&7This ability can't be cast for another &e{cooldown}&7."
+    no-target: "&cYou need a target to use this ability."
+  truce:
+    broken: "&cYour truce with guardians is broken. They will target you now!"
+    restored: "&eYour truce with guardians has been restored."
+
+### Angel ###
+angel:
+  ability:
+    cant-cast: "&7You must be gliding with an elytra first."
+    on-cooldown: "&7This ability can't be cast for another &e{cooldown}&7."
+    no-target: "&cYou need a target to use this ability."
+  healing-bow:
+    enabled: "&eYour bow radiates with light."
+    disabled: "&7Your bow's power dissipates."
+  blessing:
+    success: "&aYou blessed &f{target}&a with &e6 Absorption HP&a."
+
+### Demon ###
+demon:
+  ability:
+    cant-cast: "&7You cannot cast this yet."
+    on-cooldown: "&7This ability can't be cast for another &e{cooldown}&7."
+    no-target: "&cYou need a target to use this ability."
+  rage:
+    enabled: "&eYou enter into a fit of rage!"
+    disabled: "&7Your anger has calmed."
+  curse:
+    success: "&dYou cursed &f{target}&d."

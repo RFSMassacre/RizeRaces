@@ -1,0 +1,174 @@
+##########################################
+###              RizeRaces             ###
+##########################################
+
+### Human Abilities ###
+holy-heal:
+  name: "HolyHeal"
+  display-name: "&eHoly Heal"
+  cooldown: 15
+  range: 0
+  allowed-entities:
+    - PLAYER
+  heal-amount: 4.0
+
+### Vampire Abilities ###
+bat-form:
+  name: "BatForm"
+  display-name: "&7Bat Form"
+  cooldown: 0 #In ticks
+  minimum-food-level: 5
+  max-health: 2.0
+  fly-speed: 0.05
+  walk-speed: 0.1
+blood-lust:
+  name: "BloodLust"
+  display-name: "&cBlood Lust"
+  cooldown: 160 #In ticks
+  minimum-food-level: 10
+  particles: 30
+fang:
+  name: "Fang"
+  display-name: "&dFang"
+  cooldown: 0 #In ticks
+  range: 3
+  food-steal: 1
+  poison:
+    length: 160
+    strength: 2
+  blocked-mobs:
+    - "SKELETON_HORSE"
+    - "ENDERMAN"
+    - "PIG_ZOMBIE"
+    - "BLAZE"
+    - "CREEPER"
+    - "DROWNED"
+    - "ENDERMITE"
+    - "GHAST"
+    - "HUSK"
+    - "MAGMA_CUBE"
+    - "PHANTOM"
+    - "SKELETON"
+    - "STRAY"
+    - "VEX"
+    - "WITHER_SKELETON"
+    - "ZOMBIE"
+    - "ZOMBIE_VILLAGER"
+    - "WITHER"
+    - "ZOMBIE_HORSE"
+    - "GIANT"
+    - "ENDER_DRAGON"
+    - "WITHER"
+
+### Werewolf Abilities ###
+wolf-form:
+  name: "WolfForm"
+  display-name: "&6Wolf Form"
+  cooldown: 0
+  #cooldown: 12000 #In ticks
+  duration: 6000 #In ticks
+  punch-damage: 10
+pounce:
+  name: "Pounce"
+  display-name: "&bPounce"
+  cooldown: 160 #In ticks
+  range: 3
+  time-limit: 500
+  velocity:
+    upward: 12.0
+    forward: 20.0
+  landing:
+    damage: 10.0
+    range: 3.0
+bite:
+  name: "Bite"
+  display-name: "&4Bite"
+  range: 3
+  cooldown: 100 #In ticks
+  damage: 16.0
+
+### Merfolk Abilities ###
+heal-song:
+  name: "HealSong"
+  display-name: "&dHeal Song"
+  cooldown: 160 #In ticks
+  heal: 5.0
+  hydration: 0.05
+  range: 8.0
+blind-song:
+  name: "BlindSong"
+  display-name: "&7Blind Song"
+  cooldown: 240 #In ticks
+  duration: 100 #In Ticks
+  hydration: 0.08
+  range: 8.0
+water-blast:
+  name: "WaterBlast"
+  display-name: "&bWater Blast"
+  cooldown: 200 #In ticks
+  range: 6
+  hydration: 0.095
+  velocity:
+    upward: 5.0
+    backward: 12.0
+
+### Angel Abilities ###
+backpedal:
+  name: "Backpedal"
+  display-name: "&bBackpedal"
+  cooldown: 160 #In ticks
+  velocity:
+    upward: 8.0
+    backward: 20.0
+healing-bow:
+  name: "HealingBow"
+  display-name: "&dHealing Bow"
+  cooldown: 20 #In ticks
+  healing-percent: 0.25
+blessing:
+  name: "Blessing"
+  display-name: "&eBlessing"
+  range: 24
+  absorption-hearts: 6
+  cooldown: 300 #In ticks
+  show-effect: true
+  effect:
+    particle: END_ROD
+    offset:
+      x: 0.1
+      y: 0.1
+      z: 0.1
+    count: 5
+    speed: 0.1
+
+### Demon Abilities ###
+rage:
+  name: "Rage"
+  display-name: "&4Rage"
+  cooldown: 600
+  duration: 200 #In ticks
+  percent: 2.0
+curse:
+  name: "Curse"
+  display-name: "&7Curse"
+  range: 8
+  duration: 80
+  potion:
+    wither-strength: 2
+    weakness-strength: 1
+  cooldown: 280 #In ticks
+  show-effect: true
+  effect:
+    particle: DAMAGE_INDICATOR
+    offset:
+      x: 0.1
+      y: 0.1
+      z: 0.1
+    count: 5
+    speed: 0.01
+flame-burst:
+  name: "FlameBurst"
+  display-name: "&cFlame Burst"
+  cooldown: 600 #In ticks
+  duration: 100 #In Ticks
+  range: 4.0

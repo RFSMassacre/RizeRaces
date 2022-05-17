@@ -1,0 +1,27 @@
+name: RizeRaces
+version: '${project.version}'
+main: com.github.rfsmassacre.rizeraces.RizeRaces
+api-version: 1.18
+prefix: RizeRaces
+depend:
+  - HeavenLibrary
+  - LibsDisguises
+  - SkinsRestorer
+softdepend:
+  - WorldGuard
+  - MythicMobs
+  - Essentials
+author: RFSMassacre
+description: A new RPG plugin with familiar races and new mechanics!
+website: https://github.com/RFSMassacre
+commands:
+  rizeraces:
+    usage: /rr
+    default: true
+    aliases:
+      - rr
+  ability:
+    usage: /ab
+    default: true
+    aliases:
+      - ab

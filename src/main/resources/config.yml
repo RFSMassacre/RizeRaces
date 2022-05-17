@@ -1,0 +1,441 @@
+##########################################
+###              RizeRaces             ###
+##########################################
+
+### Skins Not Ready Yet ###
+kick-message: "&cYou cannot join yet. The server is still loading."
+
+### Command Sounds ###
+command-sounds:
+  error: ENTITY_VILLAGER_HURT
+  success: ENTITY_EXPERIENCE_ORB_PICKUP
+
+### Formulas ###
+equation:
+  #Experience to level.
+  level: "(x - 1000)^(1/2)"
+  #Level to experience.
+  experience: "x^(2) + 1000"
+
+### Boss Bar ###
+boss-bar:
+  vampire:
+    title: "&cTemperature"
+    color: RED
+    style: SOLID
+  werewolf:
+    title: "&6Wolf Form"
+    color: YELLOW
+    style: SOLID
+  merfolk:
+    title: "&3Hydration"
+    color: BLUE
+    style: SOLID
+  full-moon:
+    title: "&bFull Moon"
+    color: BLUE
+    style: SEGMENTED_10
+  rage:
+    title: "&4Demonic Rage"
+    color: RED
+    style: SOLID
+
+### Diet ###
+#The diets for each race. Each race can only eat what's listed.
+#You can also specify ALL for all foods, or NONE for no foods.
+diet:
+  #Setting this to true will prevent food from being eaten instead of setting food to 0.
+  cancel-event: false
+  human:
+    - ALL
+  vampire:
+    - NONE
+  werewolf:
+    - PORKCHOP
+    - COOKED_PORKCHOP
+    - BEEF
+    - COOKED_BEEF
+    - CHICKEN
+    - COOKED_CHICKEN
+    - RABBIT
+    - COOKED_RABBIT
+    - RABBIT_STEW
+    - MUTTON
+    - COOKED_MUTTON
+  merfolk:
+    - COD
+    - SALMON
+    - COOKED_COD
+    - COOKED_SALMON
+    - PUFFERFISH
+    - CLOWNFISH
+  elf:
+    - APPLE
+    - MUSHROOM_STEW
+    - BREAD
+    - GOLDEN_APPLE
+    - GOLDEN_ENCHANTED_APPLE
+    - COOKIE
+    - MELON_SLICE
+    - DRIED_KELP
+    - CARROT
+    - POTATO
+    - BAKED_POTATO
+    - PUMPKIN_PIE
+    - BEETROOT
+    - BEETROOT_SOUP
+    - SWEETBERRIES
+    - GLOW_BERRIES
+    - HONEY_BOTTLE
+  angel:
+    - APPLE
+    - GOLDEN_APPLE
+    - GOLDEN_ENCHANTED_APPLE
+    - CARROT
+    - GOLDEN_CARROT
+  demon:
+    - ROTTEN_FLESH
+
+### Vampire Settings ###
+vampire:
+  #Block incoming damage for vampires. (Intended to prevent falling or starving.)
+  block-damage:
+    - "FALL"
+    - "STARVATION"
+  #How much health you gain back from dealing damage.
+  lifesteal:
+    #As percent, where 0.0 means 0% and 1.0 means 100%.
+    percent: 0.5
+    #Which entities can vampires steal health from.
+    entities:
+      - "PLAYER"
+  #Settings for vampire temperature.
+  radiation:
+    #How fast temperature goes down when under a block. (Needs to be negative.)
+    base-temperature: -0.05
+    #Slow down heat by each armor piece with this number.
+    armor-piece: 0.125
+    #Multiply the speed of temperature going up or down.
+    multiplier:
+      up: 0.025
+      down: 0.25
+    #The heat of holy water.
+    holy-water: 0.7
+    #What regions prevent temperature increase.
+    safe-regions:
+      - spawn
+    #At what temperature cause these effects.
+    effects:
+      confusion:
+        start: 0.8
+        duration: 110
+        strength: 1
+      weakness:
+        start: 0.5
+        duration: 110
+        strength: 1
+      slow:
+        start: 0.65
+        duration: 110
+        strength: 1
+      blindness:
+        start: 0.8
+        duration: 110
+        strength: 1
+    #At what temperature do vampires start to burn.
+    burn:
+      start: 0.9
+      duration: 100
+  #Settings for mob truce.
+  truce:
+    #In ticks
+    length: 1200
+    #Mobs that don't attack you first
+    mobs:
+      - "BLAZE"
+      - "CAVE_SPIDER"
+      - "CREEPER"
+      - "ENDERMAN"
+      - "GHAST"
+      - "GIANT"
+      - "MAGMA_CUBE"
+      - "PIG_ZOMBIE"
+      - "SKELETON"
+      - "SPIDER"
+      - "ZOMBIE"
+      - "ZOMBIE_VILLAGER"
+      - "DROWNED"
+      - "WITCH"
+      - "GUARDIAN"
+      - "SILVERFISH"
+      - "ENDERMITE"
+      - "SLIME"
+      - "HUSK"
+      - "STRAY"
+      - "PHANTOM"
+  food:
+    #Ratio of FP per damage dealt
+    food-ratio: 0.5
+    #Ratio of HP per damage dealt
+    health-ratio: 0.5
+    #Mobs that don't give food
+    blocked-mobs:
+      - "SKELETON_HORSE"
+      - "ENDERMAN"
+      - "PIG_ZOMBIE"
+      - "BLAZE"
+      - "CREEPER"
+      - "DROWNED"
+      - "ENDERMITE"
+      - "GHAST"
+      - "HUSK"
+      - "MAGMA_CUBE"
+      - "PHANTOM"
+      - "SKELETON"
+      - "STRAY"
+      - "VEX"
+      - "WITHER_SKELETON"
+      - "ZOMBIE"
+      - "ZOMBIE_VILLAGER"
+      - "WITHER"
+      - "ZOMBIE_HORSE"
+      - "GIANT"
+      - "ENDER_DRAGON"
+      - "WITHER"
+  #Attributes to the blood-lust ability.
+  blood-lust:
+    life-steal: 2.0
+    particles: 30
+    effects:
+      increase_damage:
+        duration: 30
+        strength: 2
+      speed:
+        duration: 30
+        strength: 2
+  bat-form:
+    damage: 100
+  passives:
+    effects:
+      night_vision:
+        duration: 210
+        strength: 0
+      jump:
+        duration: 30
+        strength: 1
+      speed:
+        duration: 30
+        strength: 0
+
+ceiling-blocks:
+  - "AIR:0"
+  - "OAK_SAPLING:0.2"
+  - "SPRUCE_SAPLING:0.2"
+  - "JUNGLE_SAPLING:0.2"
+  - "DARK_OAK_SAPLING:0.2"
+  - "BIRCH_SAPLING:0.2"
+  - "ACACIA_SAPLING:0.2"
+  - "WATER:0.2"
+  - "OAK_LEAVES:0.2"
+  - "SPRUCE_LEAVES:0.2"
+  - "JUNGLE_LEAVES:0.2"
+  - "DARK_OAK_LEAVES:0.2"
+  - "BIRCH_LEAVES:0.2"
+  - "ACACIA_LEAVES:0.2"
+  - "GLASS:0.0"
+  - "GLASS_PANE:0.0"
+  - "BLACK_STAINED_GLASS_PANE:0.0"
+  - "BLUE_STAINED_GLASS_PANE:0.0"
+  - "BROWN_STAINED_GLASS_PANE:0.0"
+  - "CYAN_STAINED_GLASS_PANE:0.0"
+  - "GRAY_STAINED_GLASS_PANE:0.0"
+  - "GREEN_STAINED_GLASS_PANE:0.0"
+  - "LIGHT_BLUE_STAINED_GLASS_PANE:0.0"
+  - "LIGHT_GRAY_STAINED_GLASS_PANE:0.0"
+  - "LIME_STAINED_GLASS_PANE:0.0"
+  - "MAGENTA_STAINED_GLASS_PANE:0.0"
+  - "ORANGE_STAINED_GLASS_PANE:0.0"
+  - "PINK_STAINED_GLASS_PANE:0.0"
+  - "PURPLE_STAINED_GLASS_PANE:0.0"
+  - "RED_STAINED_GLASS_PANE:0.0"
+  - "WHITE_STAINED_GLASS_PANE:0.0"
+  - "YELLOW_STAINED_GLASS_PANE:0.0"
+  - "BLACK_STAINED_GLASS:0.0"
+  - "BLUE_STAINED_GLASS:0.0"
+  - "BROWN_STAINED_GLASS:0.0"
+  - "CYAN_STAINED_GLASS:0.0"
+  - "GRAY_STAINED_GLASS:0.0"
+  - "GREEN_STAINED_GLASS:0.0"
+  - "LIGHT_BLUE_STAINED_GLASS:0.0"
+  - "LIGHT_GRAY_STAINED_GLASS:0.0"
+  - "LIME_STAINED_GLASS:0.0"
+  - "MAGENTA_STAINED_GLASS:0.0"
+  - "ORANGE_STAINED_GLASS:0.0"
+  - "PINK_STAINED_GLASS:0.0"
+  - "PURPLE_STAINED_GLASS:0.0"
+  - "RED_STAINED_GLASS:0.0"
+  - "WHITE_STAINED_GLASS:0.0"
+  - "YELLOW_STAINED_GLASS:0.0"
+  - "WHEAT:0.0"
+  - "POTATOES:0.0"
+  - "CARROTS:0.0"
+  - "BEETROOTS:0.0"
+  - "MELON_STEM:0.0"
+  - "PUMPKIN_STEM:0.0"
+  - "SUGAR_CANE:0.0"
+  - "NETHER_WART:0.0"
+
+### Werewolves ###
+skin:
+  default:
+    url: "https://i.imgur.com/NWa5al8.png"
+    skin-type: "SLIM"
+  alpha:
+    url: "https://i.imgur.com/T5N6m75.png"
+    skin-type: "SLIM"
+  witherfang:
+    url: "https://i.imgur.com/8gAs18r.png"
+    skin-type: "SLIM"
+  silvermane:
+    url: "https://i.imgur.com/8xQWrjG.png"
+    skin-type: "SLIM"
+  bloodmoon:
+    url: "https://i.imgur.com/M0qnxXh.png"
+    skin-type: "SLIM"
+  ragewill:
+    url: "https://i.imgur.com/mYidgqZ.png"
+    skin-type: "SLIM"
+  blackwolf:
+    url: "https://i.imgur.com/XLsq0Vh.png"
+    skin-type: "SLIM"
+  skywolf:
+    url: "https://i.imgur.com/kUF6qIH.png"
+    skin-type: "SLIM"
+  lightmane:
+    url: "https://i.imgur.com/AFp4Tw8.png"
+    skin-type: "SLIM"
+  flamecanine:
+    url: "https://i.imgur.com/qhz9rwJ.png"
+    skin-type: "SLIM"
+
+werewolf:
+  wolf-effects:
+    night_vision:
+      duration: 210
+      strength: 0
+    hunger:
+      duration: 30
+      strength: 0
+    jump:
+      duration: 30
+      strength: 3
+    speed:
+      duration: 30
+      strength: 3
+    fast_digging:
+      duration: 30
+      strength: 3
+
+### Merfolk ###
+merfolk:
+  trident:
+    damage: 10.0
+  reflection:
+    hydrate: 0.5
+  hydration:
+    up: 0.01
+    rain: 0.005
+    down: 0.002
+  water-effects:
+    night_vision:
+      duration: 230
+      strength: 0
+    water_breathing:
+      duration: 30
+      strength: 0
+    dolphins_grace:
+      duration: 30
+      strength: 0
+  rain-effects:
+    speed:
+      duration: 30
+      strength: 1
+  land-effects:
+    slow:
+      duration: 30
+      strength: 1
+    slow_digging:
+      duration: 30
+      strength: 1
+  reflection-effects:
+    poison:
+      duration: 100
+      strength: 2
+  #Settings for mob truce.
+  truce:
+    #In ticks
+    length: 1200
+    #Mobs that don't attack you first
+    mobs:
+      - "GUARDIAN"
+      - "ELDER_GUARDIAN"
+
+### Angels ###
+angel:
+  block-damage:
+    - "FALL"
+    - "FLY_INTO_WALL"
+  extra-saturation: 5
+  elytra-velocity: 12
+
+### Demons ###
+demon:
+  water-damage: 2.0
+  fire-heal: 1.0
+  nether-effects:
+    damage_resistence:
+      duration: 30
+      strength: 1
+    increase_damage:
+      duration: 30
+      strength: 1
+  rage-effects:
+    speed:
+      duration: 30
+      strength: 1
+
+### Elves ###
+elf:
+  arrow-velocity: 2.0
+
+### Threads ###
+#Interval (in ticks) to how quickly these tasks repeat.
+threads:
+  player-data: 6000
+  vampire:
+    hunger-heal: 40
+    radiation: 5
+    truce: 5
+    bat-form:  100
+    blood-lust: 60
+    passives: 5
+  werewolf:
+    passives: 5
+    wolf-form: 5
+    moon: 20
+  merfolk:
+    hydration: 5
+    water-heal: 30
+  angel:
+    flight: 1
+  demon:
+    water: 10
+    fire: 10
+    nether: 5
+    rage: 5
+  ability:
+    cooldown: 5
+    duration: 5
+
+
+

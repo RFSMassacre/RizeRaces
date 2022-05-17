@@ -1,0 +1,10 @@
+&r
+ &3Ability Help
+&r
+ &3/ab &bHelp menu.
+ &3/ab toggle &bToggles ability mode.
+ &3/ab bind <ability> &bBind ability to current hotbar slot.
+ &3/ab unbind &bUnbinds ability from you current hotbar slot.
+ &7You must enable ability mode in order to use abilities.
+ &7To activate, simply press F (or the swap-hands button.)
+&r
