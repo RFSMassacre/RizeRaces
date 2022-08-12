@@ -17,7 +17,7 @@ public class TrackAbility extends InstantAbility
     @Override
     public AbilityResult cast(Player caster)
     {
-        return null;
+        return AbilityResult.SUCCESS;
     }
 
     @Override
