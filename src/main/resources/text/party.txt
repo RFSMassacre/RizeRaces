@@ -1,0 +1,8 @@
+&4&l «&c&l&m*-----------------------------------------*&4&l»
+                     &3&lParty  &cFriendly Fire&7: {friendlyfire}
+&f
+    &eLeader &3&l> &2{leader}
+&f
+    &aMembers &3&l> &a{members}
+&f
+&4&l «&c&l&m*-----------------------------------------*&4&l»

@@ -2,37 +2,62 @@
 ###              RizeRaces             ###
 ##########################################
 
+##########################
+###   Race Abilities   ###
+##########################
+
 ### Human Abilities ###
-holy-heal:
-  name: "HolyHeal"
-  display-name: "&eHoly Heal"
-  cooldown: 15
-  range: 0
-  allowed-entities:
-    - PLAYER
-  heal-amount: 4.0
 
 ### Vampire Abilities ###
 bat-form:
   name: "BatForm"
+  level: 0
   display-name: "&7Bat Form"
   cooldown: 0 #In ticks
   minimum-food-level: 5
   max-health: 2.0
+  return-health: 16.0
   fly-speed: 0.05
   walk-speed: 0.1
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fBuff
+    &e&lDuration     &fN/A
+    &c&lReagent     &f1 FP per 5 Seconds
+    &6&lCooldown     &fN/A
+    &r
+    &r &7Become a bat. While in bat form you can free-fly.
+    &r
 blood-lust:
   name: "BloodLust"
+  level: 0
   display-name: "&cBlood Lust"
   cooldown: 160 #In ticks
   minimum-food-level: 10
   particles: 30
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fBuff
+    &e&lDuration     &fN/A
+    &c&lReagent     &f1 FP per 3 Seconds
+    &6&lCooldown     &f8 Seconds
+    &r
+    &r &7The smell of blood brings out your inner monster.
+    &r
+    &r &7You gain &bStrength III&f, &bSpeed III &7for the duration. You also gain &d200% Lifesteal&7.
+    &r
 fang:
   name: "Fang"
+  level: 0
   display-name: "&dFang"
   cooldown: 0 #In ticks
   range: 3
   food-steal: 1
+  beneficial: false
   poison:
     length: 160
     strength: 2
@@ -59,17 +84,44 @@ fang:
     - "GIANT"
     - "ENDER_DRAGON"
     - "WITHER"
+  description: |
+    &r
+    &r
+    &d&lType     &fTarget Entity
+    &2&lRange     &f3 Blocks
+    &c&lReagent     &fN/A
+    &6&lCooldown     &fN/A
+    &r
+    &r &7Keep holding to drain blood from an entity.
+    &r
+    &r &7The target gets &cPoison III&7 for 8 Seconds.
+    &r
 
 ### Werewolf Abilities ###
 wolf-form:
   name: "WolfForm"
+  level: 0
   display-name: "&6Wolf Form"
   cooldown: 0
   #cooldown: 12000 #In ticks
   duration: 6000 #In ticks
   punch-damage: 10
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fBuff
+    &e&lDuration     &f5 Minutes
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f5 Minutes
+    &r
+    &r &7Transform into Werewolf form and change your skin!
+    &r
+    &r &7While in this form: your fist deals 10 DMG, &bNight Vision&7, &bJump IV&7, &bSpeed IV&7, &bHaste IV&7.
+    &r
 pounce:
   name: "Pounce"
+  level: 0
   display-name: "&bPounce"
   cooldown: 160 #In ticks
   range: 3
@@ -80,53 +132,164 @@ pounce:
   landing:
     damage: 10.0
     range: 3.0
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fInstant
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f8 Seconds
+    &r
+    &r &7Jump into the air and deal 10 DMG in a 3 Block radius upon landing.
+    &r
+    &r &cRequires Werewolf form to be active.
+    &r
 bite:
   name: "Bite"
+  level: 0
   display-name: "&4Bite"
   range: 3
   cooldown: 100 #In ticks
   damage: 16.0
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fTarget Entity
+    &2&lRange     &f3 Blocks
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f5 Seconds
+    &r
+    &r &7Bite a target and deal 16 DMG.
+    &r
+    &r &cRequires Werewolf form to be active.
+    &r
 
 ### Merfolk Abilities ###
 heal-song:
   name: "HealSong"
+  level: 0
   display-name: "&dHeal Song"
-  cooldown: 160 #In ticks
+  cooldown: 80 #In ticks
   heal: 5.0
   hydration: 0.05
   range: 8.0
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fArea Entity
+    &2&lRange     &f8 Blocks
+    &c&lReagent     &f5% Hydration
+    &6&lCooldown     &f4 Seconds
+    &r
+    &r &7Heal nearby targets for &e5 HP&7.
+    &r
 blind-song:
   name: "BlindSong"
+  level: 0
   display-name: "&7Blind Song"
-  cooldown: 240 #In ticks
+  cooldown: 120 #In ticks
   duration: 100 #In Ticks
   hydration: 0.08
   range: 8.0
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fArea Entity
+    &2&lRange     &f8 Blocks
+    &c&lReagent     &f8% Hydratizon
+    &6&lCooldown     &f6 Seconds
+    &r
+    &r &7Blind nearby targets for 5 Seconds.
+    &r
 water-blast:
   name: "WaterBlast"
+  level: 0
   display-name: "&bWater Blast"
-  cooldown: 200 #In ticks
+  cooldown: 100 #In ticks
   range: 6
   hydration: 0.095
+  damage: 12.0
   velocity:
     upward: 5.0
-    backward: 12.0
+    backward: 8.0
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fArea Entity
+    &2&lRange     &f6 Blocks
+    &c&lReagent     &f9.5% Hydration
+    &6&lCooldown     &f5 Seconds
+    &r
+    &r &7Knock back nearby targets and deal 12 DMG.
+    &r
+water-geyser:
+  name: "WaterGeyser"
+  level: 0
+  display-name: "&bWater Geyser"
+  cooldown: 100 #In ticks
+  range: 12
+  hydration: 0.05
+  damage: 12.0
+  velocity:
+    upward: 8.0
+    backward: 1.0
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fArea Entity
+    &2&lRange     &f6 Blocks
+    &c&lReagent     &f5% Hydration
+    &6&lCooldown     &f4 Seconds
+    &r
+    &r &7Knock up nearby target and deal 12 DMG.
+    &r
 
 ### Angel Abilities ###
 backpedal:
   name: "Backpedal"
+  level: 0
   display-name: "&bBackpedal"
   cooldown: 160 #In ticks
   velocity:
     upward: 8.0
     backward: 20.0
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fInstant
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f8 Seconds
+    &r
+    &r &7Move backwards quickly.
+    &r
 healing-bow:
   name: "HealingBow"
+  level: 0
   display-name: "&dHealing Bow"
   cooldown: 20 #In ticks
   healing-percent: 0.25
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fBuff
+    &e&lDuration     &fN/A
+    &c&lReagent     &fN/A
+    &6&lCooldown     &fN/A
+    &r
+    &r &7Toggle between healing and damaging arrows.
+    &r
+    &r &7While active, your arrows will heal the target for 25% of potential damage.
+    &r
 blessing:
   name: "Blessing"
+  level: 0
   display-name: "&eBlessing"
   range: 24
   absorption-hearts: 6
@@ -140,16 +303,44 @@ blessing:
       z: 0.1
     count: 5
     speed: 0.1
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fTarget Entity
+    &2&lRange     &f24 Blocks
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f15 Seconds
+    &r
+    &r &7Give target 6 Absorption HP.
+    &r
+    &r &7This can only be stacked up to 20 Absorption HP.
+    &r
 
 ### Demon Abilities ###
 rage:
   name: "Rage"
+  level: 0
   display-name: "&4Rage"
   cooldown: 600
   duration: 200 #In ticks
   percent: 2.0
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fBuff
+    &e&lDuration     &f10 Seconds
+    &c&lReagent     &fN/A
+    &6&lCooldown     &fN/A
+    &r
+    &r &7Fall into a fit of rage.
+    &r
+    &r &7While active, you gain &bSpeed II&7 and deal 200% DMG.
+    &r
 curse:
   name: "Curse"
+  level: 0
   display-name: "&7Curse"
   range: 8
   duration: 80
@@ -166,9 +357,171 @@ curse:
       z: 0.1
     count: 5
     speed: 0.01
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fTarget Entity
+    &2&lRange     &f8 Blocks
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f14 Seconds
+    &r
+    &r &7Give target &cWithering III&7, &cWeakness II &7for 4 Seconds.
+    &r
 flame-burst:
   name: "FlameBurst"
+  level: 0
   display-name: "&cFlame Burst"
   cooldown: 600 #In ticks
   duration: 100 #In Ticks
   range: 4.0
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fArea Entity
+    &2&lRange     &f6 Blocks
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f30 Seconds
+    &r
+    &r &7Light nearby targets on fire for 5 Seconds.
+    &r
+
+### Elf Abilities ###
+arrow-rain:
+  name: ArrowRain
+  level: 0
+  display-name: "&fArrow Rain"
+  range: 18
+  cooldown: 200 # In ticks
+  height: 10.0
+  arrows: 25
+  spread: 250
+  speed: 0.6
+  damage: 6
+  beneficial: false
+  description: |
+    &r
+    &r
+    &d&lType     &fTarget Block
+    &2&lRange     &f18 Blocks
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f10 Seconds
+    &r
+    &r &7Rain 25 Arrows from the sky at the targeted block for 6 DMG each.
+    &r
+dodge:
+  name: Dodge
+  level: 0
+  display-name: "&6Dodge"
+  cooldown: 80
+  velocity:
+    upward: 3.0
+    forward: 10.0
+  duration: 30
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fInstant
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f4 Seconds
+    &r
+    &r &7Move forward quickly.
+    &r
+camouflage:
+  name: Camouflage
+  level: 0
+  display-name: "&7Camouflage"
+  cooldown: 640
+  duration: 40
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fBuff
+    &e&lDuration     &f2 Seconds
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f32 Seconds
+    &r
+    &r &7Camoflauge and gain &bInvisibility&7.
+    &r
+    &r &7While active, you cannot receive damage.
+    &r
+
+### Orc Abilities ###
+tank:
+  name: Tank
+  level: 0
+  display-name: "&3Tank"
+  cooldown: 680
+  effects:
+    damage_resistence:
+      duration: 120
+      strength: 4
+    slow:
+      duration: 120
+      strength: 9
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fInstant
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f34 Seconds
+    &r
+    &r &7Become a rock and gain &bResistence V&7, &cSlowness X &7for 6 Seconds.
+    &r
+war-cry:
+  name: WarCry
+  level: 0
+  display-name: "&4War Cry"
+  duration: 100
+  cooldown: 800
+  range: 12
+  effects:
+    increase_damage:
+      duration: 100
+      strength: 2
+    hunger:
+      duration: 100
+      strength: 1
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fInstant
+    &2&lRange     &f12 Blocks
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f40 Seconds
+    &r
+    &r &7Scream and gain &bStrength III&7, &cHunger II &7for 5 Seconds.
+    &r
+    &r &7Nearby mobs now target you.
+    &r
+recover:
+  name: Recover
+  level: 0
+  display-name: "&aRecover"
+  duration: 120
+  cooldown: 1320
+  heal: 4
+  percent: 0.25
+  beneficial: true
+  description: |
+    &r
+    &r
+    &d&lType     &fBuff
+    &e&lDuration     &f6 Seconds
+    &c&lReagent     &fN/A
+    &6&lCooldown     &f66 Seconds
+    &r
+    &r &7Harden your skin.
+    &r
+    &r &7Upon activation, you heal for &e4 HP&7. 25% of all incoming damage will heal you at the end of the duration.
+    &r
+
+##########################
+###   Role Abilities   ###
+##########################
+

@@ -1,0 +1,10 @@
+&r
+ &bParty Help &3[&b1&3/&b2&3]
+&r
+ &3/party &bParty information.
+ &3/party invite <player> &bInvite player to party.
+ &3/party join <player> &bAccept player's party invite.
+ &3/party kick <player> &bKick player from party.
+ &3/party leave &bLeave party.
+ &3/party promote <player> &bTransfer ownership to player.
+&r

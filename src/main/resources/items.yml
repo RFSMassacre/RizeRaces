@@ -1,0 +1,35 @@
+REDBLOODBOTTLE:
+  name: "&cBottle o' Red Blood"
+  lore:
+    - ""
+    - "  &7Red blood extracted  "
+    - "  &7from players.  "
+    - ""
+BLACKBLOODBOTTLE:
+  name: "&7Bottle o' Black Blood"
+  lore:
+    - ""
+    - "  &7Black blood extracted  "
+    - "  &7from players.  "
+    - ""
+
+EMPTYSCROLL:
+  name: "&cEmpty Scroll &8&l| &f{complexity}"
+  lore:
+    - ""
+    - "  &4This scroll is empty!  "
+    - ""
+    - "  &bTo chart this scroll, you have to "
+    - "  &bfill it with experience levels. This "
+    - "  &bneeds &e{level} LVLs&b.  "
+    - ""
+
+FILLEDSCROLL:
+  name: "&e{race} Scroll &8&l| &f{complexity}"
+  lore:
+    - ""
+    - "  &7Right click to level up!  "
+    - ""
+    - "  &3This scroll can only level between "
+    - "  &bLVL {min} - LVL {max}&3. "
+    - ""

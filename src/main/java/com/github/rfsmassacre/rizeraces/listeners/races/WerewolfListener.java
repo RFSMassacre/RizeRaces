@@ -2,8 +2,8 @@ package com.github.rfsmassacre.rizeraces.listeners.races;
 
 import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
-import com.github.rfsmassacre.rizeraces.abilities.werewolf.PounceAbility;
-import com.github.rfsmassacre.rizeraces.abilities.werewolf.WolfFormAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.werewolf.PounceAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.werewolf.WolfFormAbility;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
 import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
@@ -23,7 +23,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerVelocityEvent;
 
 import java.util.*;
 
@@ -97,14 +96,18 @@ public class WerewolfListener implements Listener
     {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
-        if (!(damager instanceof Player && entity instanceof LivingEntity))
+        if (!(damager instanceof Player player && entity instanceof LivingEntity))
         {
             return;
         }
 
-        Player player = (Player) damager;
         Origin origin = gson.getOrigin(player.getUniqueId());
         if (origin == null)
+        {
+            return;
+        }
+
+        if (!origin.getRace().equals(Race.WEREWOLF))
         {
             return;
         }
@@ -130,11 +133,6 @@ public class WerewolfListener implements Listener
     public void onWerewolfLand(PlayerMoveEvent event)
     {
         Location to = event.getTo();
-        if (to == null)
-        {
-            return;
-        }
-
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
         Origin origin = gson.getOrigin(playerId);
@@ -187,7 +185,6 @@ public class WerewolfListener implements Listener
         World world = player.getWorld();
         Location location = player.getLocation();
         double range = ability.getRange();
-
         for (int particle = 0; particle < ability.getRange(); particle++)
         {
             world.spawnParticle(Particle.EXPLOSION_LARGE, location, (int)range * 2, particle,
@@ -195,14 +192,8 @@ public class WerewolfListener implements Listener
         }
 
         world.playSound(location, Sound.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
-        for (Entity nearbyEntity : player.getNearbyEntities(range, 1.5, range))
+        for (LivingEntity target : ability.getTargets(player))
         {
-            if (!(nearbyEntity instanceof LivingEntity))
-            {
-                continue;
-            }
-
-            LivingEntity target = (LivingEntity)nearbyEntity;
             target.damage(ability.getDamage(), player);
         }
 

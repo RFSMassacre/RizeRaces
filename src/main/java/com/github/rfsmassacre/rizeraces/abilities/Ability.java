@@ -1,29 +1,34 @@
 package com.github.rfsmassacre.rizeraces.abilities;
 
 import com.github.rfsmassacre.rizeraces.RizeRaces;
-import com.github.rfsmassacre.rizeraces.abilities.angel.BackpedalAbility;
-import com.github.rfsmassacre.rizeraces.abilities.angel.BlessingAbility;
-import com.github.rfsmassacre.rizeraces.abilities.angel.HealingBowAbility;
-import com.github.rfsmassacre.rizeraces.abilities.demon.CurseAbility;
-import com.github.rfsmassacre.rizeraces.abilities.demon.FlameBurstAbility;
-import com.github.rfsmassacre.rizeraces.abilities.demon.RageAbility;
-import com.github.rfsmassacre.rizeraces.abilities.merfolk.BlindSongAbility;
-import com.github.rfsmassacre.rizeraces.abilities.merfolk.HealSongAbility;
-import com.github.rfsmassacre.rizeraces.abilities.merfolk.WaterBlastAbility;
-import com.github.rfsmassacre.rizeraces.abilities.vampire.BatFormAbility;
-import com.github.rfsmassacre.rizeraces.abilities.vampire.BloodLustAbility;
-import com.github.rfsmassacre.rizeraces.abilities.werewolf.BiteAbility;
-import com.github.rfsmassacre.rizeraces.abilities.werewolf.PounceAbility;
-import com.github.rfsmassacre.rizeraces.abilities.werewolf.WolfFormAbility;
-import com.github.rfsmassacre.rizeraces.abilities.vampire.FangAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.angel.BackpedalAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.angel.BlessingAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.angel.HealingBowAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.demon.CurseAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.demon.FlameBurstAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.demon.RageAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.elf.ArrowRainAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.elf.CamouflageAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.elf.DodgeAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.merfolk.HealSongAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.merfolk.WaterBlastAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.merfolk.WaterGeyserAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.orc.RecoverAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.orc.TankAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.orc.WarCryAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.vampire.BatFormAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.vampire.BloodLustAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.werewolf.BiteAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.werewolf.PounceAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.werewolf.WolfFormAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.vampire.FangAbility;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
-import com.github.rfsmassacre.rizeraces.events.AbilityCastEvent;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
+import com.github.rfsmassacre.rizeraces.players.Origin.Role;
 import com.github.rfsmassacre.spigot.files.configs.Configuration;
 import com.github.rfsmassacre.spigot.files.configs.Locale;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -66,15 +71,19 @@ public abstract class Ability
     @Getter
     protected Race race;
     @Getter
+    protected Role role;
+    @Getter
     protected int level;
-
     @Getter
     protected int cooldown;
     @Getter
     protected final Map<UUID, Integer> cooldowns;
-
     @Getter
     protected double reagent;
+    @Getter
+    protected final String description;
+    @Getter
+    protected final boolean beneficial;
 
     public Ability(String internalName, AbilityType type, Race race)
     {
@@ -88,14 +97,33 @@ public abstract class Ability
         this.type = type;
         this.race = race;
         this.level = getConfigInt("level");
-
         this.cooldown = getConfigInt("cooldown");
         this.cooldowns = new HashMap<>();
-
         this.reagent = 0.0;
+        this.description = getConfigString("description");
+        this.beneficial = getConfigBoolean("beneficial");
+    }
+    public Ability(String internalName, AbilityType type, Role role)
+    {
+        this.config = RizeRaces.getInstance().getAbilityConfig();
+        this.locale = RizeRaces.getInstance().getLocale();
+        this.gson = RizeRaces.getInstance().getOriginGson();
+
+        this.internalName = internalName;
+        this.name = getConfigString("name");
+        this.displayName = Locale.format(getConfigString("display-name"));
+        this.type = type;
+        this.role = role;
+        this.level = getConfigInt("level");
+        this.cooldown = getConfigInt("cooldown");
+        this.cooldowns = new HashMap<>();
+        this.reagent = 0.0;
+        this.description = getConfigString("description");
+        this.beneficial = getConfigBoolean("beneficial");
     }
 
     public abstract AbilityResult cast(Player caster);
+    public abstract String formatReagent();
 
     //Returns the ongoing cooldown time rather than the initial cooldown time.
     public int getCooldown(UUID playerId)
@@ -118,13 +146,6 @@ public abstract class Ability
     public boolean onCooldown(UUID playerId)
     {
         return getCooldown(playerId) > 0;
-    }
-
-    protected boolean callEvent(Player caster, Race race)
-    {
-        AbilityCastEvent event = new AbilityCastEvent(caster, race, this);
-        Bukkit.getPluginManager().callEvent(event);
-        return event.isCancelled();
     }
 
     public static Ability getAbility(String internalName)
@@ -157,8 +178,8 @@ public abstract class Ability
         addAbility(new BiteAbility());
 
         addAbility(new HealSongAbility());
-        addAbility(new BlindSongAbility());
         addAbility(new WaterBlastAbility());
+        addAbility(new WaterGeyserAbility());
 
         addAbility(new HealingBowAbility());
         addAbility(new BackpedalAbility());
@@ -167,6 +188,14 @@ public abstract class Ability
         addAbility(new RageAbility());
         addAbility(new CurseAbility());
         addAbility(new FlameBurstAbility());
+
+        addAbility(new ArrowRainAbility());
+        addAbility(new DodgeAbility());
+        addAbility(new CamouflageAbility());
+
+        addAbility(new TankAbility());
+        addAbility(new RecoverAbility());
+        addAbility(new WarCryAbility());
     }
 
     /*

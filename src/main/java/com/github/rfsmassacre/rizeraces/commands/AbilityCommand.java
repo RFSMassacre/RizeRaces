@@ -4,6 +4,8 @@ import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
 import com.github.rfsmassacre.rizeraces.players.Origin;
+import com.github.rfsmassacre.rizeraces.players.Origin.Race;
+import com.github.rfsmassacre.rizeraces.players.Origin.Role;
 import com.github.rfsmassacre.spigot.commands.SpigotCommand;
 import com.github.rfsmassacre.spigot.files.TextManager;
 import com.github.rfsmassacre.spigot.files.configs.Configuration;
@@ -62,6 +64,7 @@ public class AbilityCommand extends SpigotCommand
         addSubCommand(new AbilityToggleCommand());
         addSubCommand(new AbilityBindCommand());
         addSubCommand(new AbilityUnbindCommand());
+        addSubCommand(new AbilityInfoCommand());
     }
 
     @Override
@@ -160,7 +163,19 @@ public class AbilityCommand extends SpigotCommand
             Ability ability = null;
             for (Ability found : Ability.getAbilities())
             {
-                if (found.getName().equalsIgnoreCase(args[1]) && found.getRace().equals(origin.getRace()))
+                if (!found.getName().equals(args[1]))
+                {
+                    continue;
+                }
+
+                Race race = origin.getRace();
+                Race abilityRace = found.getRace();
+                Role role = origin.getRole();
+                Role abilityRole = found.getRole();
+                int level = origin.getLevel();
+                int abilityLevel = found.getLevel();
+                if ((race.equals(abilityRace) || (role != null && role.equals(abilityRole))) &&
+                        level >= abilityLevel)
                 {
                     ability = found;
                     break;
@@ -170,12 +185,6 @@ public class AbilityCommand extends SpigotCommand
             if (ability == null)
             {
                 locale.sendLocale(player, true, "bind.invalid-ability");
-                return;
-            }
-
-            if (ability.getLevel() < origin.getLevel(origin.getRace()))
-            {
-                locale.sendLocale(player, true, "bind.not-level");
                 return;
             }
 
@@ -205,7 +214,14 @@ public class AbilityCommand extends SpigotCommand
             {
                 for (Ability ability : Ability.getAbilities())
                 {
-                    if (ability.getRace().equals(origin.getRace()))
+                    Race race = origin.getRace();
+                    Race abilityRace = ability.getRace();
+                    Role role = origin.getRole();
+                    Role abilityRole = ability.getRole();
+                    int level = origin.getLevel();
+                    int abilityLevel = ability.getLevel();
+                    if ((race.equals(abilityRace) || (role != null && role.equals(abilityRole))) &&
+                            level >= abilityLevel)
                     {
                         suggestions.add(ability.getName());
                     }
@@ -251,6 +267,93 @@ public class AbilityCommand extends SpigotCommand
         protected List<String> onTabComplete(CommandSender sender, String[] args)
         {
             return Collections.emptyList();
+        }
+    }
+
+    private class AbilityInfoCommand extends SubCommand
+    {
+        public AbilityInfoCommand()
+        {
+            super("info", "rizeraces.ability.info");
+        }
+
+        @Override
+        protected void onRun(CommandSender sender, String[] args)
+        {
+            if (isConsole(sender))
+            {
+                locale.sendLocale(sender, true, "error.console");
+                return;
+            }
+
+            Player player = (Player)sender;
+            Origin origin = gson.getOrigin(player.getUniqueId());
+            if (args.length < 2)
+            {
+                locale.sendLocale(player, true, "info.invalid-args");
+                return;
+            }
+
+            Ability ability = null;
+            for (Ability found : Ability.getAbilities())
+            {
+                if (!found.getName().equals(args[1]))
+                {
+                    continue;
+                }
+
+                Race race = origin.getRace();
+                Race abilityRace = found.getRace();
+                Role role = origin.getRole();
+                Role abilityRole = found.getRole();
+                if (race.equals(abilityRace) || (role != null && role.equals(abilityRole)))
+                {
+                    ability = found;
+                    break;
+                }
+            }
+
+            if (ability == null)
+            {
+                locale.sendLocale(player, true, "info.invalid-ability");
+                return;
+            }
+
+            locale.sendMessage(player, ability.getDescription());
+        }
+
+        @Override
+        protected List<String> onTabComplete(CommandSender sender, String[] args)
+        {
+            if (isConsole(sender))
+            {
+                return Collections.emptyList();
+            }
+
+            List<String> suggestions = new ArrayList<>();
+            Player player = (Player)sender;
+            Origin origin = gson.getOrigin(player.getUniqueId());
+            if (origin == null)
+            {
+                return Collections.emptyList();
+            }
+
+            if (args.length == 2)
+            {
+                for (Ability ability : Ability.getAbilities())
+                {
+                    Race race = origin.getRace();
+                    Race abilityRace = ability.getRace();
+                    Role role = origin.getRole();
+                    Role abilityRole = ability.getRole();
+                    if (race.equals(abilityRace) || (role != null && role.equals(abilityRole)))
+                    {
+                        suggestions.add(ability.getName());
+                    }
+                }
+            }
+
+            return suggestions;
         }
     }
 

@@ -7,8 +7,8 @@ prefix: "&c&lRize&d&lRaces &7&l> &r"
 
 ### Errors ###
 error:
-  player:
-    online: "&f{player}&c "
+  no-player: "&cNo player by this name found."
+  no-data: "&cThere is a problem with your data. Contact an administrator."
   player-offline: "&f{player}&c could not be loaded."
   database: "&cThe database failed to load."
   no-perm: "&cYou don't have permission for this."
@@ -34,8 +34,48 @@ change-race:
 
 reload: "&7Reloaded configuration files."
 
+race: "&7You're a &bLVL {level} {race}&7."
+
+empty-scroll:
+  invalid-args: "&c/rr emptyscroll <complexity> <amount> [player]"
+  fill:
+    not-enough: "&cYou need &e{requiredLevel} XP Levels&c. You only have &b{currentLevel} XP Levels&c."
+    confirm: "&7Do you want to fill this scroll? It will take &e{level} XP Levels&7. To confirm, right click again."
+    failed: "&cYou cannot level up right now."
+    success: "&aYou have made a(n) &e{complexity} {race} Scroll&a!"
+  success:
+    sender: "&aYou have given &f{player} &ex{amount} Empty Scrolls&a."
+    inventory: "&ex{amount} Empty Scrolls&a has been added to your inventory."
+    dropped: "&ex{amount} Empty Scrolls&7 has been dropped at your location since your inventory is full."
+
+filled-scroll:
+  invalid-args: "&c/rr filledscroll <complexity> <race> <amount> [player]"
+  consume:
+    wrong-race: "&cThis scroll is not charted for your race."
+    min-failed: "&cYou're unable to understand &e{complexity} Scrolls&c."
+    max-failed: "&cYou've already learned everything from &e{complexity} Scrolls&c."
+    confirm: "&7Do you want to consume this scroll? To confirm, right click again."
+    failed: "&cYou cannot level up right now."
+    success: "&aYou are now &eLVL {level}&a."
+  success:
+    sender: "&aYou have given &f{player} &ex{amount} {complexity} {race} Scrolls&a."
+    inventory: "&ex{amount} {complexity} {race} Scrolls&a has been added to your inventory."
+    dropped: "&ex{amount} {complexity} {race} Scrolls&7 has been dropped at your location since your inventory is full."
+
+set-level:
+  invalid-args: "&c/rr setlevel <player> <SET/ADD/REMOVE> <race> <amount>"
+  invalid-action: "&cYou must specify to SET, ADD, or REMOVE levels."
+  invalid-race: "&cInvalid race. Please check your arguments."
+  not-number: "&cYou must specify a whole number to modify &f{player}&c's levels."
+  success:
+    sender: "&aYou have set &f{player}&a to &eLVL {level}&a for the &b{race} Race&a."
+    target: "&aYou are &eLVL {level}&a for the &b{race} Race&a."
+
 ### Abilities ###
 ability:
+  display:
+    on-cooldown: "{ability} &8&l>&f {cooldown} Seconds"
+    status: "{ability} &8&l>&r {status}"
   toggle:
     enabled: "&eYour abilities are enabled."
     disabled: "&7Your abilities are disabled."
@@ -50,6 +90,10 @@ unbind:
   no-ability: "&cThis slot has no ability bound to it."
   success: "&e{ability}&7 is no longer bound to Slot {slot}."
 
+info:
+  invalid-args: "&c/ab info <ability>"
+  invalid-ability: "&cInvalid ability name. Please verify your argument."
+
 ### Vampire ###
 vampire:
   ability:
@@ -59,6 +103,9 @@ vampire:
   truce:
     broken: "&cYour truce with mobs is broken. They will target you now!"
     restored: "&eYour truce with mobs has been restored."
+  bottle:
+    no-hp: "&cYou need more than &d7 HP &cto make a blood bottle."
+    no-bottle: "&cYou need a bottle in your main hand."
 
 ### Werewolf ###
 werewolf:
@@ -102,3 +149,65 @@ demon:
     disabled: "&7Your anger has calmed."
   curse:
     success: "&dYou cursed &f{target}&d."
+
+### Elf ###
+elf:
+  ability:
+    cant-cast: "&7You cannot cast this yet."
+    on-cooldown: "&7This ability can't be cast for another &e{cooldown}&7."
+    no-target: "&cYou need a target to use this ability."
+
+### Orc ###
+orc:
+  ability:
+    cant-cast: "&7You cannot cast this yet."
+    on-cooldown: "&7This ability can't be cast for another &e{cooldown}&7."
+    no-target: "&cYou need a target to use this ability."
+
+### Parties ###
+party:
+  no-party: "&cYou are not in a party!"
+  name-taken: "&e{name}&c is already taken."
+  already-in-party: "&cYou are already in a party!"
+  created: "&eYou have created a new party."
+  new-leader: "&eYou are now the leader of your party."
+  member-ally: "&f{player} &cis not in your party!"
+  already-member: "&f{player} &cis already in your party!"
+  already-invited: "&f{player} &chas already been invited."
+  not-invited: "&cYou are not invited to &f{leader}&c's party."
+  invite-expired: "&7The party invite from &f{leader} &7has expired."
+  not-in-party: "&f{player} &cis not in the party!"
+  party-not-found: "&cThere is no party with that leader's name."
+  member-not-found: "&f{name} &cis not in the party or doesn't exist."
+  no-perm: "&cYou must be the leader of this party to use this command."
+  no-player: "&cYou must supply an online player's name."
+  disbanded: "&cYour party has been disbanded."
+  failed: "&cFailed to edit, join, or leave party."
+  help-no-number: "&cYou must supply a page number."
+  left:
+    party: "&f{player} &7has left the party."
+    self: "&aYou have left the party."
+  invited:
+    target: "&7You've been invite to &f{leader display}&7's party. Join by typing &c/party join {leader name}&7!"
+    self: "&eYou invited &f{player} &eto join your party."
+    target-self: "&cYou cannot invite yourself."
+  joined:
+    target: "&eYou have joined &f{leader}&e's party!"
+    self: "&f{player} &ehas joined your party."
+  kicked:
+    target: "&cYou've been kicked from the party."
+    self: "&7You have kicked &f{player} &7from the party."
+    target-self: "&cYou cannot kick yourself."
+  full:
+    target: "&cThe party is currently full."
+    self: "&cYour party is currently full."
+  promoted:
+    leader: "&eYou are now the leader of the party."
+    member: "&f{leader} &7is now the leader of the party."
+    target-self: "&cYou cannot promote yourself."
+  friendly-fire:
+    enabled: "&7Friendly fire has been enabled!"
+    disabled: "&aFriendly fire has been disabled."
+
+level:
+  level-up: "&7You've leveled up! You're now &eLVL {level}&7."

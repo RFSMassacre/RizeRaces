@@ -2,16 +2,15 @@ package com.github.rfsmassacre.rizeraces;
 
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
 import com.github.rfsmassacre.rizeraces.abilities.BuffAbility;
-import com.github.rfsmassacre.rizeraces.commands.AbilityCommand;
-import com.github.rfsmassacre.rizeraces.commands.RizeRacesCommand;
+import com.github.rfsmassacre.rizeraces.commands.*;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
-import com.github.rfsmassacre.rizeraces.listeners.AbilityListener;
-import com.github.rfsmassacre.rizeraces.listeners.DietListener;
-import com.github.rfsmassacre.rizeraces.listeners.LoginListener;
-import com.github.rfsmassacre.rizeraces.listeners.RaceListener;
+import com.github.rfsmassacre.rizeraces.data.PartyGson;
+import com.github.rfsmassacre.rizeraces.listeners.*;
 import com.github.rfsmassacre.rizeraces.listeners.races.*;
 import com.github.rfsmassacre.rizeraces.managers.SkinManager;
 import com.github.rfsmassacre.rizeraces.moons.Moon;
+import com.github.rfsmassacre.rizeraces.parties.Party;
+import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.tasks.vampire.TemperatureTask;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.MoonTask;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.WolfFormTickTask;
@@ -39,9 +38,13 @@ public final class RizeRaces extends JavaPlugin
     @Getter
     private Configuration abilityConfig;
     @Getter
+    private Configuration itemConfig;
+    @Getter
     private Locale locale;
     @Getter
     private OriginGson originGson;
+    @Getter
+    private PartyGson partyGson;
     @Getter
     private TextManager textManager;
 
@@ -64,8 +67,10 @@ public final class RizeRaces extends JavaPlugin
         //Prepare configurations
         this.baseConfig = new Configuration(this, "", "config.yml");
         this.abilityConfig = new Configuration(this, "", "abilities.yml");
+        this.itemConfig = new Configuration(this, "", "items.yml");
         this.locale = new Locale(this, "", "locale.yml");
         this.originGson = new OriginGson(this);
+        this.partyGson = new PartyGson(this);
         this.textManager = new TextManager(this, "text");
 
         //Managers
@@ -81,7 +86,10 @@ public final class RizeRaces extends JavaPlugin
         plugins.registerEvents(new MerfolkListener(), this);
         plugins.registerEvents(new AngelListener(), this);
         plugins.registerEvents(new DemonListener(), this);
+        plugins.registerEvents(new ElfListener(), this);
+        plugins.registerEvents(new OrcListener(), this);
         plugins.registerEvents(new RaceListener(), this);
+        plugins.registerEvents(new ScrollListener(), this);
 
         //Initialize
         TaskUtil.startTasks();
@@ -91,6 +99,9 @@ public final class RizeRaces extends JavaPlugin
         //Commands
         getCommand("rizeraces").setExecutor(new RizeRacesCommand());
         getCommand("ability").setExecutor(new AbilityCommand());
+        getCommand("race").setExecutor(new RaceCommand());
+        getCommand("bloodbottle").setExecutor(new BloodBottleCommand());
+        getCommand("party").setExecutor(new PartyCommand());
     }
 
     @Override
@@ -101,13 +112,25 @@ public final class RizeRaces extends JavaPlugin
         {
             BuffAbility.deactivateAll(player);
         }
+
+        for (Origin origin : originGson.getOrigins())
+        {
+            originGson.write(origin.getPlayerId().toString(), origin);
+        }
+
+        for (Party party : partyGson.getParties())
+        {
+            partyGson.write(party.getPartyId().toString(), party);
+        }
     }
 
     public void onReload()
     {
         this.baseConfig.reload();
-        this.locale.reload();
         this.abilityConfig.reload();
+        this.itemConfig.reload();
+        this.locale.reload();
+        this.textManager.clearCacheFiles();
 
         for (Player player : Bukkit.getOnlinePlayers())
         {

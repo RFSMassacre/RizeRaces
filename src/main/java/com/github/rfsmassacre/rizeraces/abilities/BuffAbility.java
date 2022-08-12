@@ -1,9 +1,13 @@
 package com.github.rfsmassacre.rizeraces.abilities;
 
+import com.github.rfsmassacre.rizeraces.events.AbilityBuffEvent;
+import com.github.rfsmassacre.rizeraces.events.AbilityCastEvent;
+import com.github.rfsmassacre.rizeraces.events.AbilityTargetEvent;
+import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
+import com.github.rfsmassacre.rizeraces.players.Origin.Role;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -25,6 +29,60 @@ public abstract class BuffAbility extends Ability
         this.durations = new HashMap<>();
         this.duration = getConfigInt("duration");
     }
+    public BuffAbility(String internalName, Role role)
+    {
+        super(internalName, AbilityType.BUFF, role);
+
+        this.durations = new HashMap<>();
+        this.duration = getConfigInt("duration");
+    }
+
+    public boolean failEvent(Player caster)
+    {
+        AbilityCastEvent event = new AbilityBuffEvent(caster, race, !isActive(caster), this);
+        if (race == null)
+        {
+            event = new AbilityBuffEvent(caster, role, !isActive(caster), this);
+        }
+
+        Bukkit.getPluginManager().callEvent(event);
+        return event.isCancelled();
+    }
+
+    @Override
+    public AbilityResult cast(Player caster)
+    {
+        UUID playerId = caster.getUniqueId();
+        Origin origin = gson.getOrigin(playerId);
+        if (origin == null)
+        {
+            return AbilityResult.FAILED;
+        }
+
+        if (isActive(caster))
+        {
+            deactivate(caster);
+            return AbilityResult.SUCCESS;
+        }
+
+        if (onCooldown(playerId))
+        {
+            return AbilityResult.ON_COOLDOWN;
+        }
+
+        if (!hasReagent(caster))
+        {
+            return AbilityResult.NO_REAGENT;
+        }
+
+        if (failEvent(caster))
+        {
+            return AbilityResult.FAILED;
+        }
+
+        activate(caster);
+        return AbilityResult.SUCCESS;
+    }
 
     protected void toggle(Player caster)
     {
@@ -38,6 +96,8 @@ public abstract class BuffAbility extends Ability
         }
     }
 
+    public abstract boolean hasReagent(Player caster);
+
     public abstract boolean isActive(Player caster);
 
     public abstract void activate(Player caster);
@@ -50,7 +110,7 @@ public abstract class BuffAbility extends Ability
         {
             if (!(ability instanceof BuffAbility buffAbility))
             {
-                return;
+                continue;
             }
 
             if (buffAbility.isActive(caster))

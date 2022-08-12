@@ -2,19 +2,23 @@ package com.github.rfsmassacre.rizeraces.tasks;
 
 import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
+import com.github.rfsmassacre.rizeraces.data.PartyGson;
 
 public class GsonWriteTask implements Runnable
 {
-    private final OriginGson gson;
+    private final OriginGson originGson;
+    private final PartyGson partyGson;
 
     public GsonWriteTask()
     {
-        this.gson = RizeRaces.getInstance().getOriginGson();
+        this.originGson = RizeRaces.getInstance().getOriginGson();
+        this.partyGson = RizeRaces.getInstance().getPartyGson();
     }
 
     @Override
     public void run()
     {
-        gson.writeAllAsync();
+        originGson.writeAllAsync();
+        partyGson.writeAllAsync();
     }
 }

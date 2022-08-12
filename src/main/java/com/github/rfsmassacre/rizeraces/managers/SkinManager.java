@@ -63,6 +63,8 @@ public class SkinManager
             {
                 locale.sendLocale(Bukkit.getConsoleSender(), true, "skin.cannot-apply",
                         "{player}", player.getDisplayName());
+
+                exception.printStackTrace();
             }
         });
     }
@@ -80,6 +82,8 @@ public class SkinManager
             {
                 locale.sendLocale(Bukkit.getConsoleSender(), true, "skin.cannot-clear",
                         "{player}", player.getDisplayName());
+
+                exception.printStackTrace();
             }
         });
     }
@@ -119,6 +123,8 @@ public class SkinManager
             {
                 locale.sendLocale(Bukkit.getConsoleSender(), true, "skin.cannot-load", "{skin}",
                         skinName);
+
+                exception.printStackTrace();
             }
         }
 

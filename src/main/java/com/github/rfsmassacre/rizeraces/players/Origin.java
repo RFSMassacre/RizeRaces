@@ -1,12 +1,8 @@
 package com.github.rfsmassacre.rizeraces.players;
 
-import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
-import com.github.rfsmassacre.spigot.files.configs.Configuration;
 import lombok.Getter;
 import lombok.Setter;
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -21,15 +17,29 @@ public final class Origin
         WEREWOLF,
         MERFOLK,
         ANGEL,
-        DEMON
+        DEMON,
+        ELF,
+        ORC
+    }
+
+    public enum Role
+    {
+        MELEE,
+        RANGED,
+        TANK,
+        SUPPORT
     }
 
     @Getter
     private final UUID playerId;
+    //Setters/Getters defined.
     private String displayName;
     @Getter
     @Setter
     private Race race;
+    @Getter
+    @Setter
+    private Role role;
 
     /*
      * Vampire
@@ -93,23 +103,27 @@ public final class Origin
     @Getter
     private final Map<Integer, String> abilities;
 
-    /*
-     * Levels Per Race
-     */
-    @Getter
-    private final Map<Race, Long> experience;
+    private final Map<Race, Integer> levels;
 
     public Origin(Player player, Race race)
     {
         this.playerId = player.getUniqueId();
         this.displayName = player.getDisplayName();
         this.race = race;
+        this.abilityMode = true;
 
         this.abilities = new HashMap<>();
 
-        this.experience = new HashMap<>();
+        //this.experiences = new HashMap<>();
+        this.levels = new HashMap<>();
 
         reset();
+    }
+    public Origin(Player player, Race race, Role role)
+    {
+        this(player, race);
+
+        this.role = role;
     }
     public Origin(Player player)
     {
@@ -118,6 +132,8 @@ public final class Origin
 
     public void reset()
     {
+        this.role = null;
+
         this.batForm = false;
         this.bloodLust = false;
         this.truceTicks = 0;
@@ -127,6 +143,7 @@ public final class Origin
         this.transformTime = 0;
 
         this.hydration = 1.0;
+
         this.arrowHealing = false;
 
         this.enraged = false;
@@ -223,33 +240,35 @@ public final class Origin
         this.abilities.remove(slot);
     }
 
-    //Experience
-    public void setExperience(Race race, long experience)
+    //Levels
+    public void setLevel(Race race, int level)
     {
-        this.experience.put(race, experience);
+        this.levels.put(race, level);
     }
-    public long getExperience(Race race)
+    public void setLevel(int level)
     {
-        return experience.get(race);
+        setLevel(race, level);
     }
-    public void clearExperience(Race race)
-    {
-        this.experience.remove(race);
-    }
-    public void addExperience(Race race, long experience)
-    {
-        setExperience(race, getExperience(race) + experience);
-    }
-
     public int getLevel(Race race)
     {
-        long experience = getExperience(race);
-        Configuration config = RizeRaces.getInstance().getBaseConfig();
-        String equation = config.getString("equation.level");
-        Expression expression = new ExpressionBuilder(equation)
-                .variables("x")
-                .build()
-                .setVariable("x", experience);
-        return (int)expression.evaluate();
+        if (levels.get(race) == null)
+        {
+            return 0;
+        }
+
+        return levels.get(race);
+    }
+    public int getLevel()
+    {
+        return getLevel(getRace());
+    }
+
+    public void addLevel(Race race, int level)
+    {
+        setLevel(race, getLevel(race) + level);
+    }
+    public void addLevel(int level)
+    {
+        addLevel(race, level);
     }
 }

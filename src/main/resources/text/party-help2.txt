@@ -1,0 +1,10 @@
+&r
+ &bParty Help &3[&b2&3/&b2&3]
+&r
+ &3/party friendlyfire &bToggle friendly fire.
+ &3/party help &bHelp menu.
+&r
+&r
+&r
+&r
+&r

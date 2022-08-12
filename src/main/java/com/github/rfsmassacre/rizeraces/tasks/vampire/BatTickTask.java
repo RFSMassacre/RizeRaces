@@ -2,7 +2,7 @@ package com.github.rfsmassacre.rizeraces.tasks.vampire;
 
 import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
-import com.github.rfsmassacre.rizeraces.abilities.vampire.BatFormAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.vampire.BatFormAbility;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
 import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;

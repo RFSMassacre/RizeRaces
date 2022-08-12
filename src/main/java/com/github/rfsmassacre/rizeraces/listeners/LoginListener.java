@@ -9,6 +9,7 @@ import com.github.rfsmassacre.rizeraces.tasks.merfolk.HydrationTask;
 import com.github.rfsmassacre.rizeraces.tasks.vampire.TemperatureTask;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.MoonTask;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.WolfFormTickTask;
+import com.github.rfsmassacre.rizeraces.utils.CombatUtil;
 import com.github.rfsmassacre.spigot.files.configs.Configuration;
 import com.github.rfsmassacre.spigot.files.configs.Locale;
 import org.bukkit.entity.Player;
@@ -19,6 +20,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import javax.swing.plaf.ComponentInputMapUIResource;
+import java.awt.*;
 import java.util.UUID;
 
 public class LoginListener implements Listener
@@ -57,6 +60,9 @@ public class LoginListener implements Listener
             }
 
             gson.addOrigin(origin);
+
+            //Set race max health
+            CombatUtil.setMaxHealth(config, origin.getRace(), player);
         });
     }
 

@@ -71,7 +71,8 @@ public class HydrationTask implements Runnable
             }
 
             UUID playerId = player.getUniqueId();
-            if (player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR))
+            if (player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR)
+            || SunUtil.inGodModeRegion(player))
             {
                 origin.setHydration(1.0);
                 removeBossBar(playerId);
@@ -107,7 +108,6 @@ public class HydrationTask implements Runnable
                 double terrain = SunUtil.getTerrainOpacity(block, blocks);
                 if (terrain == 1.0)
                 {
-                    origin.addHydration(-down);
                     if (origin.getHydration() == 0.0)
                     {
                         for (PotionEffect effect : landEffects)
@@ -127,7 +127,6 @@ public class HydrationTask implements Runnable
             }
             else
             {
-                origin.addHydration(-down);
                 if (origin.getHydration() == 0.0)
                 {
                     for (PotionEffect effect : landEffects)

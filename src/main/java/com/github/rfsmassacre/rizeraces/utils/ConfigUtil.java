@@ -28,6 +28,7 @@ public class ConfigUtil
             int amount = Integer.parseInt(parts[1]);
             materials.put(material, amount);
         }
+
         return materials;
     }
 
@@ -42,6 +43,7 @@ public class ConfigUtil
             double amount = Double.parseDouble(parts[1]);
             materials.put(material, amount);
         }
+
         return materials;
     }
 
@@ -72,6 +74,7 @@ public class ConfigUtil
             Material material = Material.valueOf((String)parts[0]);
             items.add(new ItemStack(material, amount));
         }
+
         return items;
     }
 
@@ -79,11 +82,13 @@ public class ConfigUtil
     {
         Set<Material> materials = new HashSet<Material>();
         List<String> strings = config.getStringList(key);
-        for (String string : strings) {
+        for (String string : strings)
+        {
             String[] parts = string.split(":");
             Material material = Material.valueOf((String)parts[0]);
             materials.add(material);
         }
+
         return materials;
     }
 
@@ -91,6 +96,11 @@ public class ConfigUtil
     {
         Set<PotionEffect> potionEffects = new HashSet<PotionEffect>();
         ConfigurationSection section = config.getSection(key);
+        if (section == null)
+        {
+            return potionEffects;
+        }
+
         for (String innerKey : section.getKeys(false))
         {
             PotionEffectType effectType = PotionEffectType.getByName(innerKey.toUpperCase());
@@ -104,6 +114,7 @@ public class ConfigUtil
             PotionEffect potionEffect = new PotionEffect(effectType, duration, strength);
             potionEffects.add(potionEffect);
         }
+
         return potionEffects;
     }
 }

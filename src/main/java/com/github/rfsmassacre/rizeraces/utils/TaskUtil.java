@@ -3,13 +3,17 @@ package com.github.rfsmassacre.rizeraces.utils;
 import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.tasks.CooldownTask;
 import com.github.rfsmassacre.rizeraces.tasks.GsonWriteTask;
+import com.github.rfsmassacre.rizeraces.tasks.InventoryUpdateTask;
 import com.github.rfsmassacre.rizeraces.tasks.angel.FlightBoostTask;
 import com.github.rfsmassacre.rizeraces.tasks.demon.FireHealTask;
 import com.github.rfsmassacre.rizeraces.tasks.demon.NetherRitesTask;
 import com.github.rfsmassacre.rizeraces.tasks.demon.RageTickTask;
 import com.github.rfsmassacre.rizeraces.tasks.demon.WaterDamageTask;
+import com.github.rfsmassacre.rizeraces.tasks.elf.ArrowTrackTask;
+import com.github.rfsmassacre.rizeraces.tasks.elf.ThresholdTask;
 import com.github.rfsmassacre.rizeraces.tasks.merfolk.HydrationTask;
 import com.github.rfsmassacre.rizeraces.tasks.merfolk.WaterHealTask;
+import com.github.rfsmassacre.rizeraces.tasks.orc.WarEffectTask;
 import com.github.rfsmassacre.rizeraces.tasks.vampire.*;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.MoonTask;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.WolfEffectsTask;
@@ -30,7 +34,10 @@ public class TaskUtil
 
         //Ability
         TASK_IDS.add(getTaskId(new CooldownTask(), 0L, "ability.cooldown"));
-        //TASK_IDS.add(getTaskId(new DurationTask(), 0L, "ability.duration"));
+        TASK_IDS.add(getTaskId(new AbilityDisplayTask(), 0L, "ability.display"));
+
+        //GUI task
+        TASK_IDS.add(getTaskId(new InventoryUpdateTask(), 0L, "gui"));
 
         //Vampire Tasks
         TASK_IDS.add(getTaskId(new HungerHealTask(), 0L, "vampire.hunger-heal"));
@@ -57,6 +64,13 @@ public class TaskUtil
         TASK_IDS.add(getTaskId(new FireHealTask(), 0L, "demon.fire"));
         TASK_IDS.add(getTaskId(new NetherRitesTask(), 0L, "demon.nether"));
         TASK_IDS.add(getTaskId(new RageTickTask(), 0L, "demon.rage"));
+
+        //Elf Tasks
+        TASK_IDS.add(getTaskId(new ArrowTrackTask(), 0L, "elf.arrow-track"));
+        TASK_IDS.add(getTaskId(new ThresholdTask(), 0L, "elf.threshold"));
+
+        //Orc Tasks
+        TASK_IDS.add(getTaskId(new WarEffectTask(), 0L, "orc.passives"));
     }
 
     public static void cancelTasks()

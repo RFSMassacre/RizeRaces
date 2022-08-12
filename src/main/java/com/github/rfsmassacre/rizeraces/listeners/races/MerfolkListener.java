@@ -11,12 +11,19 @@ import com.github.rfsmassacre.spigot.files.configs.Configuration;
 import com.github.rfsmassacre.spigot.files.configs.Locale;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionType;
 
 import java.util.List;
 import java.util.Set;
@@ -46,13 +53,23 @@ public class MerfolkListener implements Listener
     {
         Entity damager = event.getDamager();
         Player player = null;
+
+        if (!event.getCause().equals(DamageCause.ENTITY_ATTACK) && !event.getCause().equals(DamageCause.PROJECTILE))
+        {
+            return;
+        }
+
         if (damager instanceof Player)
         {
             player = (Player)damager;
+
+            if (!player.getInventory().getItemInMainHand().getType().equals(Material.TRIDENT))
+            {
+                return;
+            }
         }
-        else if (damager instanceof Trident)
+        else if (damager instanceof Trident trident)
         {
-            Trident trident = (Trident)damager;
             if (trident.getShooter() instanceof Player)
             {
                 player = (Player)trident.getShooter();
@@ -117,6 +134,9 @@ public class MerfolkListener implements Listener
         }
     }
 
+    /*
+     * Merfolk are truced with some underwater mobs.
+     */
     @EventHandler(ignoreCancelled = true)
     public void onMobTargetMerfolk(EntityTargetEvent event)
     {
@@ -182,6 +202,68 @@ public class MerfolkListener implements Listener
             }
 
             origin.setTruceTicks(truceBreak);
+        }
+    }
+
+    /*
+     * Merfolk can drink water to rehydrate.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onMerfolkDrink(PlayerItemConsumeEvent event)
+    {
+        Player player = event.getPlayer();
+        Origin origin = gson.getOrigin(player.getUniqueId());
+        if (origin == null)
+        {
+            return;
+        }
+
+        if (!origin.getRace().equals(Race.MERFOLK))
+        {
+            return;
+        }
+
+        ItemStack item = event.getItem();
+        if (!item.getType().equals(Material.POTION))
+        {
+            return;
+        }
+
+        PotionMeta meta = (PotionMeta)item.getItemMeta();
+        if (meta.getBasePotionData().getType().equals(PotionType.WATER))
+        {
+            origin.addHydration(config.getDouble("merfolk.hydration.water-bottle"));
+        }
+    }
+
+    /*
+     * Merfolk can hydrate from splash water bottles.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onMerfolkDrinkSplash(PotionSplashEvent event)
+    {
+        if (!event.getPotion().getPotionMeta().getBasePotionData().getType().equals(PotionType.WATER))
+        {
+            return;
+        }
+
+        for (LivingEntity entity : event.getAffectedEntities())
+        {
+            if (!(entity instanceof Player player))
+            {
+                continue;
+            }
+
+            Origin origin = gson.getOrigin(player.getUniqueId());
+            if (origin == null)
+            {
+                continue;
+            }
+
+            if (origin.getRace().equals(Race.MERFOLK))
+            {
+                origin.addHydration(config.getDouble("merfolk.hydration.water-bottle"));
+            }
         }
     }
 }

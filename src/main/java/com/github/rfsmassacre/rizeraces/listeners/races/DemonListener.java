@@ -2,14 +2,12 @@ package com.github.rfsmassacre.rizeraces.listeners.races;
 
 import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
-import com.github.rfsmassacre.rizeraces.abilities.demon.RageAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.demon.RageAbility;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
 import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
 import com.github.rfsmassacre.rizeraces.utils.PotionUtil;
 import com.github.rfsmassacre.spigot.files.configs.Configuration;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,6 +30,7 @@ public class DemonListener implements Listener
         this.gson = RizeRaces.getInstance().getOriginGson();
     }
 
+    /*
     @EventHandler(ignoreCancelled = true)
     public void onDemonPotionApply(EntityPotionEffectEvent event)
     {
@@ -62,6 +61,7 @@ public class DemonListener implements Listener
             event.setCancelled(true);
         }
     }
+     */
 
     @EventHandler(ignoreCancelled = true)
     public void onDemonFireTick(EntityDamageEvent event)
@@ -83,7 +83,7 @@ public class DemonListener implements Listener
         }
 
         if (event.getCause().equals(DamageCause.LAVA) || event.getCause().equals(DamageCause.FIRE)
-                || event.getCause().equals(DamageCause.FIRE_TICK))
+                || event.getCause().equals(DamageCause.FIRE_TICK) || event.getCause().equals(DamageCause.HOT_FLOOR))
         {
             event.setCancelled(true);
         }

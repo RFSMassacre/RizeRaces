@@ -2,6 +2,7 @@ package com.github.rfsmassacre.rizeraces.events;
 
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
+import com.github.rfsmassacre.rizeraces.players.Origin.Role;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -31,12 +32,23 @@ public class AbilityCastEvent extends Event implements Cancellable
     @Getter
     private final Race race;
     @Getter
+    private final Role role;
+    @Getter
     private final Ability ability;
 
     public AbilityCastEvent(Player caster, Race race, Ability ability)
     {
         this.caster = caster;
         this.race = race;
+        this.role = null;
+        this.ability = ability;
+        this.cancel = false;
+    }
+    public AbilityCastEvent(Player caster, Role role, Ability ability)
+    {
+        this.caster = caster;
+        this.race = null;
+        this.role = role;
         this.ability = ability;
         this.cancel = false;
     }

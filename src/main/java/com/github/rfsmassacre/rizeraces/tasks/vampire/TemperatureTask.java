@@ -68,6 +68,11 @@ public class TemperatureTask implements Runnable
                 continue;
             }
 
+            if (player.isDead())
+            {
+                continue;
+            }
+
             UUID playerId = player.getUniqueId();
             if (player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR))
             {

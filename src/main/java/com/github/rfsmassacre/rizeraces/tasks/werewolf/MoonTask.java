@@ -66,7 +66,8 @@ public class MoonTask implements Runnable
                 continue;
             }
 
-            if (MoonPhase.FULL_MOON.equals(moon.getCurrentPhase()))
+            MoonPhase moonPhase = moon.getCurrentPhase();
+            if (MoonPhase.FULL_MOON.equals(moonPhase))
             {
                 BossBar bossBar = BOSS_BARS.get(playerId);
                 if (bossBar == null)
@@ -77,15 +78,15 @@ public class MoonTask implements Runnable
                         continue;
                     }
 
-                    bossBar.setProgress(1.0 - ((double)(moon.getTime() - MoonPhase.FULL_MOON.getStart()) /
-                            (double)(MoonPhase.FULL_MOON.getEnd() - MoonPhase.FULL_MOON.getStart())));
+                    bossBar.setProgress(1.0 - ((double)(moon.getTime() - moonPhase.getStart()) /
+                            (double)(moonPhase.getEnd() - moonPhase.getStart())));
                     bossBar.addPlayer(player);
                     bossBar.setVisible(true);
                     BOSS_BARS.put(playerId, bossBar);
                 }
 
-                bossBar.setProgress(1.0 - ((double)(moon.getTime() - MoonPhase.FULL_MOON.getStart()) /
-                        (double)(MoonPhase.FULL_MOON.getEnd() - MoonPhase.FULL_MOON.getStart())));
+                bossBar.setProgress(1.0 - ((double)(moon.getTime() - moonPhase.getStart()) /
+                        (double)(moonPhase.getEnd() - moonPhase.getStart())));
 
                 Block block = player.getLocation().getBlock().getRelative(BlockFace.UP);
                 double terrain = SunUtil.getTerrainOpacity(block, blocks);

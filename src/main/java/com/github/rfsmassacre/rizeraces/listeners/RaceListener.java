@@ -5,12 +5,16 @@ import com.github.rfsmassacre.rizeraces.abilities.BuffAbility;
 import com.github.rfsmassacre.rizeraces.events.RaceChangeEvent;
 import com.github.rfsmassacre.rizeraces.managers.SkinManager;
 import com.github.rfsmassacre.rizeraces.moons.Moon;
+import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
 import com.github.rfsmassacre.rizeraces.tasks.demon.RageTickTask;
 import com.github.rfsmassacre.rizeraces.tasks.merfolk.HydrationTask;
 import com.github.rfsmassacre.rizeraces.tasks.vampire.TemperatureTask;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.MoonTask;
 import com.github.rfsmassacre.rizeraces.tasks.werewolf.WolfFormTickTask;
+import com.github.rfsmassacre.rizeraces.utils.CombatUtil;
+import com.github.rfsmassacre.spigot.files.configs.Configuration;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,6 +49,10 @@ public class RaceListener implements Listener
 
         //Remove race stuff
         Moon.removeTransformId(playerId);
+
+        //Set race max health
+        Configuration config = RizeRaces.getInstance().getBaseConfig();
+        CombatUtil.setMaxHealth(config, event.getRace(), player);
     }
 
     /*

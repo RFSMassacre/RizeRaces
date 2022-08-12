@@ -2,6 +2,8 @@ package com.github.rfsmassacre.rizeraces.listeners.races;
 
 import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
+import com.github.rfsmassacre.rizeraces.items.potions.BlackBloodPotion;
+import com.github.rfsmassacre.rizeraces.items.potions.RedBloodPotion;
 import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
 import com.github.rfsmassacre.rizeraces.utils.CombatUtil;
@@ -11,6 +13,7 @@ import com.github.rfsmassacre.spigot.files.configs.Configuration;
 import com.github.rfsmassacre.spigot.files.configs.Locale;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import org.bukkit.Bukkit;
+import org.bukkit.EntityEffect;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -425,7 +428,7 @@ public class VampireListener implements Listener
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    @EventHandler(ignoreCancelled = true)
     public void onBatDamaged(EntityDamageEvent event)
     {
         if (!(event.getEntity() instanceof Player player))
@@ -451,9 +454,8 @@ public class VampireListener implements Listener
 
         if (origin.isBatForm())
         {
-            //Ensure bats get 1 shot.
-            double damage = config.getDouble("vampire.bat-form.damage");
-            event.setDamage(damage);
+            event.setCancelled(true);
+            player.setHealth(0.0);
         }
     }
 
@@ -588,7 +590,7 @@ public class VampireListener implements Listener
     /*
      * Vampires in bat form can't consume items.
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onBatItemConsume(PlayerItemConsumeEvent event)
     {
         Player player = event.getPlayer();
@@ -606,6 +608,95 @@ public class VampireListener implements Listener
         if (origin.isBatForm())
         {
             event.setCancelled(true);
+        }
+    }
+
+    /*
+     * Effects of drinking blood.
+     *
+     * Blood does nothing to non-vampires other than getting hurt when drinking black blood.
+     * Red blood restores food points while black blood does the same while damaging, effectively making it amount to
+     * nothing.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onBloodConsume(PlayerItemConsumeEvent event)
+    {
+        Player player = event.getPlayer();
+        Origin origin = gson.getOrigin(player.getUniqueId());
+        if (origin == null)
+        {
+            return;
+        }
+
+        //None vamps when drinking blood.
+        BlackBloodPotion blackBlood = new BlackBloodPotion();
+        RedBloodPotion redBlood = new RedBloodPotion();
+        ItemStack item = event.getItem();
+        if (!item.getType().equals(Material.POTION))
+        {
+            return;
+        }
+
+        if (!origin.getRace().equals(Race.VAMPIRE))
+        {
+            return;
+        }
+
+        AttributeInstance attribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (attribute == null)
+        {
+            return;
+        }
+
+        double heal = 0.0;
+        int food = 0;
+        if (blackBlood.equals(item))
+        {
+            heal = config.getDouble("vampire.bottle.black-blood.health");
+            food = config.getInt("vampire.bottle.black-blood.food");
+        }
+        else if (redBlood.equals(item))
+        {
+            heal = config.getDouble("vampire.bottle.red-blood.health");
+            food = config.getInt("vampire.bottle.red-blood.food");
+        }
+
+        double maxHealth = attribute.getValue();
+        double health = player.getHealth();
+        double finalHealth = health + heal;
+        if (finalHealth < 0)
+        {
+            finalHealth = 0;
+        }
+        else if (finalHealth > maxHealth)
+        {
+            finalHealth = maxHealth;
+        }
+
+        int hunger = player.getFoodLevel();
+        int finalHunger = hunger + food;
+        if (finalHunger < 0)
+        {
+            finalHunger = 0;
+        }
+        else if (finalHunger > FoodUtil.MAX_FOOD)
+        {
+            finalHunger = FoodUtil.MAX_FOOD;
+        }
+
+        if (finalHealth != 0)
+        {
+            player.setHealth(finalHealth);
+        }
+
+        if (finalHunger != 0)
+        {
+            player.setFoodLevel(finalHunger);
+        }
+
+        if (heal < 0.0)
+        {
+            player.playEffect(EntityEffect.HURT);
         }
     }
 }

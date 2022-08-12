@@ -2,7 +2,7 @@ package com.github.rfsmassacre.rizeraces.listeners.races;
 
 import com.github.rfsmassacre.rizeraces.RizeRaces;
 import com.github.rfsmassacre.rizeraces.abilities.Ability;
-import com.github.rfsmassacre.rizeraces.abilities.angel.HealingBowAbility;
+import com.github.rfsmassacre.rizeraces.abilities.race.angel.HealingBowAbility;
 import com.github.rfsmassacre.rizeraces.data.OriginGson;
 import com.github.rfsmassacre.rizeraces.players.Origin;
 import com.github.rfsmassacre.rizeraces.players.Origin.Race;
@@ -118,7 +118,7 @@ public class AngelListener implements Listener
                 0.5, 0.5, 0.5, 0.5);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onFoodConsume(PlayerItemConsumeEvent event)
     {
         Player player = event.getPlayer();
